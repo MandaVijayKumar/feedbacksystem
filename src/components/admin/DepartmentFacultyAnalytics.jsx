@@ -82,7 +82,8 @@ export default function DepartmentFacultyAnalytics() {
                 <Box key={idx} sx={{ mb: 2 }}>
                   
                   <Typography sx={{ fontWeight: 'bold' }}>
-                    {sub.subject_name} ({sub.section || 'No Section'})
+                    {/* {sub.subject_name} ({sub.section || 'No Section'}) */}
+                    {sub.subject_name} ({sub.section === 'NULL' ? 'No Section' : section || 'All'})
                   </Typography>
 
                   {/* THEORY */}

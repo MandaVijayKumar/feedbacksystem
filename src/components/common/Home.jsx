@@ -16,61 +16,74 @@ export default function Home() {
 
   return (
     <Box>
-      {/* Hero Section */}
+
+      {/* 🔥 HERO SECTION (RESPONSIVE) */}
       <Box
         sx={{
-          height: 450,
+          minHeight: { xs: 300, sm: 350, md: 450 },
+          px: 2,
           backgroundImage: `url(${buildingImg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          position: 'relative',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#fff',
           textAlign: 'center',
+          color: '#fff'
         }}
       >
         <Box
           sx={{
-            bgcolor: 'rgba(0,0,0,0.05)',
-            p: 4,
+            bgcolor: 'rgba(0,0,0,0.4)',
+            p: { xs: 2, sm: 3, md: 4 },
             borderRadius: 2,
-            color: '#edf0f2ff',
+            width: { xs: '100%', sm: '90%', md: '70%' }
           }}
         >
-          <Typography variant="h3" gutterBottom>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: { xs: 20, sm: 26, md: 34 }, fontWeight: 'bold' }}
+            gutterBottom
+          >
             Rayalaseema University, Kurnool
           </Typography>
-          <Typography variant="h6" gutterBottom>
+
+          <Typography
+            sx={{ fontSize: { xs: 14, sm: 16, md: 18 } }}
+            gutterBottom
+          >
             Online Student Feedback System
           </Typography>
-          <Typography sx={{ mb: 3 }}>
+
+          <Typography sx={{ mb: 2, fontSize: { xs: 12, sm: 14, md: 16 } }}>
             Submit confidential feedback on faculty performance using secure OTP-based authentication.
           </Typography>
+
           <Button
             variant="contained"
-            color="secondary"
-            size="large"
-            onClick={() => navigate('/student')} sx={{background:'#0B3C5D'}}
+            sx={{
+              background: '#0B3C5D',
+              fontSize: { xs: 12, sm: 14, md: 16 },
+              px: { xs: 2, md: 4 }
+            }}
+            onClick={() => navigate('/student')}
           >
             Submit Feedback
           </Button>
         </Box>
       </Box>
 
-      {/* Leaders Section - Horizontal */}
-      <Box sx={{ p: 4, bgcolor: '#f9f9f9' }}>
-        <Grid container spacing={4} justifyContent="center">
+      {/* 👨‍🏫 LEADERS */}
+      <Box sx={{ p: { xs: 2, md: 4 }, bgcolor: '#f9f9f9' }}>
+        <Grid container spacing={3} justifyContent="center">
           {leaders.map((leader, idx) => (
-            <Grid item xs={12} md={4} key={idx}>
+            <Grid item xs={12} sm={6} md={4} key={idx}>
               <Paper
-                elevation={6}
+                elevation={4}
                 sx={{
                   borderRadius: 3,
-                  overflow: 'hidden',
                   textAlign: 'center',
-                  p: 2,
+                  p: 2
                 }}
               >
                 <img
@@ -78,14 +91,24 @@ export default function Home() {
                   alt={leader.name}
                   style={{
                     width: '100%',
-                    height: 200,
+                    height: 180,
                     objectFit: 'cover',
-                    borderRadius: 8,
+                    borderRadius: 8
                   }}
                 />
+
                 <Box sx={{ mt: 2 }}>
-                  <Typography variant="h6" sx={{color:'#0B3C5D'}}>{leader.name}</Typography>
-                  <Typography variant="subtitle2" sx={{ color: 'gray' }}>
+                  <Typography
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: { xs: 14, md: 18 },
+                      color: '#0B3C5D'
+                    }}
+                  >
+                    {leader.name}
+                  </Typography>
+
+                  <Typography variant="caption" sx={{ color: 'gray' }}>
                     {leader.title}
                   </Typography>
                 </Box>
@@ -95,80 +118,59 @@ export default function Home() {
         </Grid>
       </Box>
 
-{/* Instructions Section */}
-<Box sx={{ p: 4 }}>
-  <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
-    <Typography 
-      variant="h5" 
-      gutterBottom 
-      sx={{ fontWeight: 'bold', color: '#0B3C5D' }}
-    >
-      Instructions for Students
-    </Typography>
+      {/* 📘 INSTRUCTIONS */}
+      <Box sx={{ p: { xs: 2, md: 4 } }}>
+        <Paper sx={{ p: { xs: 2, md: 4 }, borderRadius: 3 }}>
 
-    {/* General Instructions */}
-    <Box sx={{ mt: 2, pl: 2 }}>
-      <Typography sx={{ mb: 1 }}>
-        • <strong>Use your official hall ticket number</strong> for OTP authentication.
-      </Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>
-        • మీ అధికారిక హాల్ టికెట్ నంబర్ ఉపయోగించి OTP ఆధారిత నిర్ధారణ చేయండి.
-      </Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 'bold',
+              color: '#0B3C5D',
+              fontSize: { xs: 18, md: 24 }
+            }}
+          >
+            Instructions for Students
+          </Typography>
 
-      <Typography sx={{ mb: 1 }}>
-        • <strong>Select the correct faculty, subject, and feedback type (Theory or Lab)</strong> before submitting feedback.
-      </Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>
-        • ఫీడ్‌బ్యాక్ సమర్పించడానికి సరియైన ఫ్యాకల్టీ, సబ్జెక్ట్, మరియు ఫీడ్‌బ్యాక్ రకాన్ని (థియరీ లేదా ల్యాబ్) ఎంచుకోండి.
-      </Typography>
+          <Box sx={{ mt: 2 }}>
+            {[
+              "Use your official hall ticket number for OTP authentication.",
+              "Select correct faculty, subject and feedback type.",
+              "Answer all questions honestly.",
+              "Comments are optional but helpful."
+            ].map((text, i) => (
+              <Typography
+                key={i}
+                sx={{ mb: 1, fontSize: { xs: 13, md: 15 } }}
+              >
+                • {text}
+              </Typography>
+            ))}
+          </Box>
 
-      <Typography sx={{ mb: 1 }}>
-        • <strong>Answer all the questions honestly and completely</strong>.
-      </Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>
-        • అన్ని ప్రశ్నలకు నిజాయితీగా మరియు పూర్తిగా సమాధానమివ్వండి.
-      </Typography>
+          {/* THEORY */}
+          <Box sx={{ mt: 3 }}>
+            <Typography sx={{ fontWeight: 'bold', color: '#0B3C5D' }}>
+              Theory Feedback
+            </Typography>
+            <Typography sx={{ fontSize: { xs: 13, md: 15 } }}>
+              • Complete theory feedback first.
+            </Typography>
+          </Box>
 
-      <Typography sx={{ mb: 1 }}>
-        • <strong>Additional comments</strong> are optional but helpful for improving academic quality.
-      </Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>
-        • అదనపు కామెంట్లు ఐచ్ఛికం, కానీ విద్యాసంబంధిత నాణ్యత మెరుగుపరిచేందుకు ఉపయోగకరంగా ఉంటాయి.
-      </Typography>
-    </Box>
+          {/* LAB */}
+          <Box sx={{ mt: 2 }}>
+            <Typography sx={{ fontWeight: 'bold', color: '#0B3C5D' }}>
+              Lab Feedback
+            </Typography>
+            <Typography sx={{ fontSize: { xs: 13, md: 15 } }}>
+              • Submit only if applicable.
+            </Typography>
+          </Box>
 
-    {/* Theory Feedback */}
-    <Box sx={{ mt: 3, pl: 2 }}>
-      <Typography 
-        variant="subtitle1" 
-        sx={{ fontWeight: 'bold', mb: 1, color: '#0B3C5D' }}
-      >
-        Theory Feedback
-      </Typography>
-      <Typography sx={{ mb: 1 }}>• Complete the Theory feedback form first.</Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>• మొదట థియరీ ఫీడ్‌బ్యాక్ ఫారం పూర్తి చేయండి.</Typography>
-
-      <Typography sx={{ mb: 1 }}>• If the same faculty teaches multiple theory subjects, submit feedback separately for each subject.</Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>• ఒకే ఫ్యాకల్టీ ఒకటి కంటే ఎక్కువ థియరీ సబ్జెక్ట్ చదిస్తే, ప్రతి సబ్జెక్ట్ కోసం వేర్వేరు ఫీడ్‌బ్యాక్ సమర్పించండి.</Typography>
-    </Box>
-
-    {/* Lab Feedback */}
-    <Box sx={{ mt: 3, pl: 2 }}>
-      <Typography 
-        variant="subtitle1" 
-        sx={{ fontWeight: 'bold', mb: 1, color: '#0B3C5D' }}
-      >
-        Lab Feedback
-      </Typography>
-      <Typography sx={{ mb: 1 }}>• Submit Lab feedback only if applicable.</Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>• ల్యాబ్ ఫీడ్‌బ్యాక్ అవసరమైతే మాత్రమే సమర్పించండి.</Typography>
-
-      <Typography sx={{ mb: 1 }}>• Follow the same process: select correct faculty, subject, and Lab feedback type.</Typography>
-      <Typography sx={{ mb: 1, ml: 3, color: 'gray' }}>• అదే ప్రక్రియను అనుసరించండి: సరైన ఫ్యాకల్టీ, సబ్జెక్ట్, మరియు ల్యాబ్ ఫీడ్‌బ్యాక్ రకాన్ని ఎంచుకోండి.</Typography>
-    </Box>
-  </Paper>
-</Box>
-
+        </Paper>
+      </Box>
 
     </Box>
   )
