@@ -141,130 +141,180 @@ export default function FeedbackForm() {
 
   /* ================= UI ================= */
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
-      <Paper elevation={4} sx={{ p: 4, width: 650 }}>
-        <Typography variant="h6" gutterBottom sx={{ color: '#0B3C5D', fontWeight: 'bold' }}>
-          Student Feedback Form
-        </Typography>
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      px: 2,
+      mt: { xs: 2, md: 6 }
+    }}
+  >
+    <Paper
+      elevation={4}
+      sx={{
+        p: { xs: 2, md: 4 },
+        width: '100%',
+        maxWidth: 650,
+        borderRadius: 3
+      }}
+    >
+      <Typography
+        gutterBottom
+        sx={{
+          color: '#0B3C5D',
+          fontWeight: 'bold',
+          fontSize: { xs: 18, md: 22 }
+        }}
+      >
+        Student Feedback Form
+      </Typography>
 
-        {/* FACULTY */}
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Select Faculty</InputLabel>
-          <Select value={faculty} label="Select Faculty"
-            onChange={(e) => {
-              setFaculty(e.target.value)
-              setSubject('')
-              setFeedbackType('')
-              setAnswers({})
-              setComments('')
+      {/* FACULTY */}
+      <FormControl fullWidth margin="normal">
+        <InputLabel>Select Faculty</InputLabel>
+        <Select
+          value={faculty}
+          label="Select Faculty"
+          onChange={(e) => {
+            setFaculty(e.target.value)
+            setSubject('')
+            setFeedbackType('')
+            setAnswers({})
+            setComments('')
+          }}
+        >
+          {facultyList.map(f => (
+            <MenuItem key={f.faculty_id} value={f.faculty_id}>
+              {f.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {/* SUBJECT */}
+      <FormControl fullWidth margin="normal" disabled={!faculty}>
+        <InputLabel>Select Subject</InputLabel>
+        <Select
+          value={subject}
+          label="Select Subject"
+          onChange={(e) => {
+            setSubject(e.target.value)
+            setFeedbackType('')
+            setAnswers({})
+            setComments('')
+          }}
+        >
+          {filteredSubjects.map(s => (
+            <MenuItem key={s.subject_id} value={s.subject_id}>
+              {s.subject_name} (Sem {s.semester})
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {/* TYPE */}
+      <FormControl fullWidth margin="normal" disabled={!subject}>
+        <InputLabel>Feedback Type</InputLabel>
+        <Select
+          value={feedbackType}
+          label="Feedback Type"
+          onChange={(e) => {
+            setFeedbackType(e.target.value)
+            setAnswers({})
+            setComments('')
+          }}
+        >
+          <MenuItem value="THEORY">Theory</MenuItem>
+          <MenuItem value="LAB">Lab</MenuItem>
+        </Select>
+      </FormControl>
+
+      {/* QUESTIONS */}
+      {feedbackType && QUESTIONS.map((q, i) => (
+        <Box key={q.id} sx={{ mb: 2 }}>
+          <Typography sx={{ fontSize: { xs: 13, md: 15 } }}>
+            {i + 1}. {q.text}
+          </Typography>
+
+          <RadioGroup
+            row
+            sx={{
+              flexWrap: 'wrap',   // 🔥 key fix
+              gap: 1
             }}
+            value={answers[q.id] || ''}
+            onChange={(e) =>
+              setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))
+            }
           >
-            {facultyList.map(f => (
-              <MenuItem key={f.faculty_id} value={f.faculty_id}>
-                {f.name}
-              </MenuItem>
+            {[
+              { value: '5', label: 'Excellent' },
+              { value: '4', label: 'Very Good' },
+              { value: '3', label: 'Good' },
+              { value: '2', label: 'Average' },
+              { value: '1', label: 'Poor' }
+            ].map(opt => (
+              <FormControlLabel
+                key={opt.value}
+                value={opt.value}
+                control={<Radio size="small" />}
+                label={opt.label}
+                sx={{
+                  flex: { xs: '1 1 45%', md: 'unset' } // 🔥 mobile grid
+                }}
+              />
             ))}
-          </Select>
-        </FormControl>
+          </RadioGroup>
+        </Box>
+      ))}
 
-        {/* SUBJECT */}
-        <FormControl fullWidth margin="normal" disabled={!faculty}>
-          <InputLabel>Select Subject</InputLabel>
-          <Select value={subject} label="Select Subject"
-            onChange={(e) => {
-              setSubject(e.target.value)
-              setFeedbackType('')
-              setAnswers({})
-              setComments('')
-            }}
-          >
-            {filteredSubjects.map(s => (
-              <MenuItem key={s.subject_id} value={s.subject_id}>
-                {s.subject_name} (Sem {s.semester})
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      {/* COMMENTS */}
+      {feedbackType && (
+        <TextField
+          label="Additional Comments (Optional)"
+          multiline
+          rows={3}
+          fullWidth
+          margin="normal"
+          value={comments}
+          onChange={(e) => setComments(e.target.value)}
+        />
+      )}
 
-        {/* TYPE */}
-        <FormControl fullWidth margin="normal" disabled={!subject}>
-          <InputLabel>Feedback Type</InputLabel>
-          <Select value={feedbackType} label="Feedback Type"
-            onChange={(e) => {
-              setFeedbackType(e.target.value)
-              setAnswers({})
-              setComments('')
-            }}
-          >
-            <MenuItem value="THEORY">Theory</MenuItem>
-            <MenuItem value="LAB">Lab</MenuItem>
-          </Select>
-        </FormControl>
-
-        {/* QUESTIONS */}
-        {feedbackType && QUESTIONS.map((q, i) => (
-          <Box key={q.id} sx={{ mb: 2 }}>
-            <Typography>{i + 1}. {q.text}</Typography>
-            <RadioGroup
-              row
-              value={answers[q.id] || ''}
-              onChange={(e) =>
-                setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))
-              }
-            >
-              <FormControlLabel value="5" control={<Radio />} label="Excellent" />
-              <FormControlLabel value="4" control={<Radio />} label="Very Good" />
-              <FormControlLabel value="3" control={<Radio />} label="Good" />
-              <FormControlLabel value="2" control={<Radio />} label="Average" />
-              <FormControlLabel value="1" control={<Radio />} label="Poor" />
-            </RadioGroup>
-          </Box>
-        ))}
-
-        {/* COMMENTS */}
-        {feedbackType && (
-          <TextField
-            label="Additional Comments (Optional)"
-            multiline
-            rows={4}
-            fullWidth
-            margin="normal"
-            value={comments}
-            onChange={(e) => setComments(e.target.value)}
-          />
-        )}
-
-        {/* ACTIONS */}
-        {!submitted ? (
+      {/* ACTIONS */}
+      {!submitted ? (
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{
+            mt: 3,
+            backgroundColor: '#0B3C5D',
+            fontSize: { xs: 14, md: 16 }
+          }}
+          onClick={handleSubmit}
+        >
+          Submit Feedback
+        </Button>
+      ) : (
+        <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Button
             variant="contained"
-            fullWidth
-            sx={{ mt: 3, backgroundColor: '#0B3C5D' }}
-            onClick={handleSubmit}
+            sx={{ backgroundColor: '#0B3C5D' }}
+            onClick={handleAnotherFeedback}
           >
-            Submit Feedback
+            Submit Another Feedback
           </Button>
-        ) : (
-          <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{ backgroundColor: '#0B3C5D' }}
-              onClick={handleAnotherFeedback}
-            >
-              Submit Another Feedback
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              fullWidth
-              onClick={handleLogout}
-            >
-              Logout & Go Home
-            </Button>
-          </Box>
-        )}
-      </Paper>
-    </Box>
-  )
+
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={handleLogout}
+          >
+            Logout & Go Home
+          </Button>
+        </Box>
+      )}
+    </Paper>
+  </Box>
+)
 }
